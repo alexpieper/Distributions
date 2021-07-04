@@ -76,7 +76,7 @@ server <- function(input,output, session){
         img(src = paste0(result_orig, ".gif"), width = 480) 
       })
       output$disclaimer <- renderText(
-        "All gif's are from giphy.com"
+        "All gif's are from www.giphy.com"
       )
     }
     
@@ -91,7 +91,7 @@ server <- function(input,output, session){
     
     poolnum <- as.numeric(unlist(strsplit(input$urnenumber,input$trennznum)))
     if(input$anzahlnumber > length(poolnum) & input$zurnumber == FALSE){
-      solution <- "Fehler: Anzahl der Elemente ist größer als die Länge der möglichen Zahlen. 'Mit zurücklegen' muss ausgewählt werden"
+      solutionnum <- "Error: Number of elements is larger than the number of possibilities. Please adjust Parameters"
     }else{
       if(input$zurnumber == TRUE){
         solutionnum <- sample(poolnum, size = input$anzahlnumber, replace = TRUE)
@@ -107,7 +107,7 @@ server <- function(input,output, session){
   observeEvent(input$gorandword,{
     poolword <- unlist(strsplit(input$urneword,input$trennzword))
     if(input$anzahlword > length(poolword) & input$zurword == FALSE){
-      solutionword <- "Fehler: Anzahl der Elemente ist größer als die Länge der möglichen Zahlen. 'Mit zurücklegen' muss ausgewählt werden"
+      solutionword <- "Error: Number of elements is larger than the number of possibilities. Please adjust Parameters"
     }else{
       if(input$zurword == TRUE){
         solutionword <- sample(poolword, size = input$anzahlword, replace = TRUE)
@@ -123,7 +123,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVbinom,{
-    output$capEVbinom <- renderText("Die ersten Momente:")
+    output$capEVbinom <- renderText("First and second moment:")
     output$EVbinom <- renderUI({
       withMathJax(
         paste0("$$X \\sim B(",input$sizebinom,",",input$probbinom,")\\rightarrow\\begin{cases}
@@ -152,8 +152,8 @@ server <- function(input,output, session){
                to = input$sizebinom,
                by = 1)
       qplot(x,pbinom(x,size = input$sizebinom,prob = input$probbinom),
-            main = "Verteilungsfunktion der Binomialverteilung", 
-            ylab = "Wahrscheinlichkeit")
+            main = "Distribution function of the binomial distribution", 
+            ylab = "Probability")
       
     })
   })
@@ -164,8 +164,8 @@ server <- function(input,output, session){
                to = input$sizebinom,
                by = 1)
       qplot(x,dbinom(x,size = input$sizebinom,prob = input$probbinom),
-            main = "Dichte der Binomialverteilung", 
-            ylab = "Dichte")
+            main = "Density function of the binomial distribution", 
+            ylab = "Density")
       
       
     })
@@ -174,7 +174,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandbinom,{
-    output$capbinom <- renderText("Zufallszahlen:")
+    output$capbinom <- renderText("Random numbers:")
     output$resbinom <- renderText(paste(rbinom(isolate(input$randombinom), 
                                                size = input$sizebinom, 
                                                prob = input$probbinom), collapse = isolate(input$trzbinom)))
@@ -184,7 +184,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVnegbinom,{
-    output$capEVnegbinom <- renderText("Die ersten Momente:")
+    output$capEVnegbinom <- renderText("First and second moment:")
     output$EVnegbinom <- renderUI({
       withMathJax(
         paste0("$$X \\sim NB(",input$sizenegbinom,",",input$probnegbinom,")\\rightarrow\\begin{cases}
@@ -203,8 +203,8 @@ server <- function(input,output, session){
     })
   })
   
-  # Hier aus wikipedia: p ist die erfolgswahrscheinlichkeit, bei 
-  # Stat2 skript(bergter) ist \theta die misserfolgswahrscheinlichkeit
+  # Hier aus wikipedia: p ist die erfolgsProbability, bei 
+  # Stat2 skript(bergter) ist \theta die misserfolgsProbability
   
   
   
@@ -214,8 +214,8 @@ server <- function(input,output, session){
                to = input$sizenegbinom + qnbinom(p = 0.999, size = input$sizenegbinom, prob = input$probnegbinom),
                by = 1)
       qplot(x,pnbinom(x - input$sizenegbinom,size = input$sizenegbinom,prob = input$probnegbinom),
-            main = "Verteilungsfunktion der negativen Binomialverteilung", 
-            ylab = "Wahrscheinlichkeit")
+            main = "Distribution function of the negative binomial distribution", 
+            ylab = "Probability")
       
     })
   })
@@ -226,8 +226,8 @@ server <- function(input,output, session){
                to = input$sizenegbinom + qnbinom(p = 0.999, size = input$sizenegbinom, prob = input$probnegbinom),
                by = 1)
       qplot(x,dnbinom(x - input$sizenegbinom,size = input$sizenegbinom,prob = input$probnegbinom),
-            main = "Dichte der negativen Binomialverteilung", 
-            ylab = "Dichte")
+            main = "Density function of the negative binomial distribution", 
+            ylab = "Density")
       
       
     })
@@ -235,7 +235,7 @@ server <- function(input,output, session){
   })
   
   observeEvent(input$gorandnegbinom,{
-    output$capnegbinom <- renderText("Zufallszahlen:")
+    output$capnegbinom <- renderText("Random numbers:")
     output$resnegbinom <- renderText(paste(rnbinom(isolate(input$randomnegbinom), 
                                                    size = input$sizenegbinom, 
                                                    prob = input$probnegbinom) + input$sizenegbinom, collapse = isolate(input$trznegbinom)))
@@ -246,7 +246,7 @@ server <- function(input,output, session){
   ###############################################Geometrische Verteilung##############################
   
   observeEvent(input$goEVgeom,{
-    output$capEVgeom <- renderText("Die ersten Momente:")
+    output$capEVgeom <- renderText("First and second moment:")
     output$EVgeom <- renderUI({
       withMathJax(
         paste0("$$X \\sim Geo(",input$probgeom,")\\rightarrow\\begin{cases}
@@ -275,8 +275,8 @@ server <- function(input,output, session){
                to = qgeom(0.99,prob = input$probgeom),
                by = 1)
       qplot(x,pgeom(x,prob = input$probgeom),
-            main = "Verteilungsfunktion der Geometrischen Verteilung", 
-            ylab = "Wahrscheinlichkeit")
+            main = "Distribution function of the geometric distribution", 
+            ylab = "Probability")
       
       
     })})
@@ -287,8 +287,8 @@ server <- function(input,output, session){
                to = qgeom(0.99,prob = input$probgeom),
                by = 1)
       qplot(x,dgeom(x,prob = input$probgeom),
-            main = "Dichte der Geometrischen Verteilung", 
-            ylab = "Dichte")
+            main = "Density function of the geometric distribution", 
+            ylab = "Density")
       
       
     })
@@ -296,7 +296,7 @@ server <- function(input,output, session){
   })
   
   observeEvent(input$gorandgeom,{
-    output$capgeom <- renderText("Zufallszahlen:")
+    output$capgeom <- renderText("Random numbers:")
     output$resgeom <- renderText(paste(rgeom(isolate(input$randomgeom), 
                                              prob = input$probgeom), collapse = isolate(input$trzgeom)))
   })
@@ -306,7 +306,7 @@ server <- function(input,output, session){
   #############################################Hypergeometrische####################################    
   
   observeEvent(input$goEVhyp,{
-    output$capEVhyp <- renderText("Die ersten Momente:")
+    output$capEVhyp <- renderText("First and second moment:")
     output$EVhyp <- renderUI({
       withMathJax(
         paste0("$$X \\sim H(",input$khyp,",",input$mhyp,",",input$nhyp,")\\rightarrow\\begin{cases}
@@ -340,8 +340,8 @@ server <- function(input,output, session){
                      m = input$mhyp,
                      n = input$nhyp-input$mhyp,
                      k = input$khyp),
-            main = "Verteilungsfunktion der Hypergeometrischen Verteilung", 
-            ylab = "Wahrscheinlichkeit")
+            main = "Distribution function of the hypergeometric distribution", 
+            ylab = "Probability")
       
       
     })})
@@ -355,8 +355,8 @@ server <- function(input,output, session){
                      m = input$mhyp,
                      n = input$nhyp-input$mhyp,
                      k = input$khyp),
-            main = "Dichte der Hypergeometrischen Verteilung", 
-            ylab = "Dichte")
+            main = "Density function of the hypergeometric distribution", 
+            ylab = "Density")
       
       
     })
@@ -364,7 +364,7 @@ server <- function(input,output, session){
   })
   
   observeEvent(input$gorandhyp,{
-    output$caphyp <- renderText("Zufallszahlen:")
+    output$caphyp <- renderText("Random numbers:")
     output$reshyp <- renderText(paste(rhyper(isolate(input$randomhyp), 
                                              m = input$mhyp,
                                              n = input$nhyp-input$mhyp,
@@ -376,7 +376,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVpois,{
-    output$capEVpois <- renderText("Die ersten Momente:")
+    output$capEVpois <- renderText("First and second moment:")
     output$EVpois <- renderUI({
       withMathJax(
         paste0("$$X \\sim Poi(",input$lambdapois,")\\rightarrow\\begin{cases}
@@ -408,8 +408,8 @@ server <- function(input,output, session){
                           lambda = input$lambdapois),
                by = 1)
       qplot(x,ppois(x,lambda = input$lambdapois),
-            main = "Verteilungsfunktion der Poissonverteilung", 
-            ylab = "Wahrscheinlichkeit")
+            main = "Distribution function of the poisson distribution", 
+            ylab = "Probability")
       
       
     })})
@@ -422,8 +422,8 @@ server <- function(input,output, session){
                           lambda = input$lambdapois),
                by = 1)
       qplot(x,dpois(x,lambda = input$lambdapois),
-            main = "Dichte der Poissonverteilung", 
-            ylab = "Dichte")
+            main = "Density function of the poisson distribution", 
+            ylab = "Density")
       
       
     })
@@ -432,7 +432,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandpois,{
-    output$cappois <- renderText("Zufallszahlen:")
+    output$cappois <- renderText("Random numbers:")
     output$respois <- renderText(paste(rpois(isolate(input$randompois), 
                                              lambda = input$lambdapois), collapse = isolate(input$trzpois)))
   })
@@ -444,7 +444,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVunif,{
-    output$capEVunif <- renderText("Die ersten Momente:")
+    output$capEVunif <- renderText("First and second moment:")
     output$EVunif <- renderUI({
       withMathJax(
         paste0("$$X \\sim U(",input$startunif,",",input$endunif,")\\rightarrow\\begin{cases}
@@ -475,8 +475,8 @@ server <- function(input,output, session){
                     min = input$startunif,
                     max = input$endunif),
             geom = "line",
-            main = "Verteilungsfunktion der Gleichverteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the uniform distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = c(input$startunif,input$endunif))+
         geom_vline(aes(xintercept = as.numeric(qunif(input$alphaunif,
                                                      min = input$startunif,
@@ -484,16 +484,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantunif <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantunif <- renderPrint(paste("The quantile at alpha=",
                                           input$alphaunif ,
-                                          "ist:",
+                                          "is:",
                                           qunif(input$alphaunif,
                                                 min = input$startunif,
                                                 max = input$endunif)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tableunif <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qunif(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qunif(a,
                                                               min = input$startunif,
                                                               max = input$endunif),6))))
     ) 
@@ -509,8 +509,8 @@ server <- function(input,output, session){
                     min = input$startunif,
                     max = input$endunif),
             geom = "line",
-            main = "Dichte der Gleichverteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the uniform distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = c(input$startunif,input$endunif))+
         geom_vline(aes(xintercept = as.numeric(qunif(input$alphaunif,
                                                      min = input$startunif,
@@ -518,16 +518,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantunif <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantunif <- renderPrint(paste("The quantile at alpha=",
                                           input$alphaunif ,
-                                          "ist:",
+                                          "is:",
                                           qunif(input$alphaunif,
                                                 min = input$startunif,
                                                 max = input$endunif)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tableunif <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qunif(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qunif(a,
                                                               min = input$startunif,
                                                               max = input$endunif),6))))
     ) 
@@ -538,7 +538,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandunif,{
-    output$capunif <- renderText("Zufallszahlen:")
+    output$capunif <- renderText("Random numbers:")
     output$resunif <- renderText(paste(round(runif(isolate(input$randomunif), 
                                                    min = input$startunif,
                                                    max = input$endunif),6), collapse = isolate(input$trzunif)))
@@ -548,7 +548,7 @@ server <- function(input,output, session){
   #################################################Normalverteilung##############################
   
   observeEvent(input$goEVnorm,{
-    output$capEVnorm <- renderText("Die ersten Momente:")
+    output$capEVnorm <- renderText("First and second moment:")
     output$EVnorm <- renderUI({
       withMathJax(
         paste0("$$X \\sim N(",input$meannorm,",",input$sdnorm^2,")\\rightarrow\\begin{cases}
@@ -589,8 +589,8 @@ server <- function(input,output, session){
                     mean = input$meannorm,
                     sd = input$sdnorm),
             geom = "line",
-            main = "Verteilungsfunktion der Normalverteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the normal distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startnorm)|is.na(input$endnorm)){
           c(qnorm(0.001,
                   mean = input$meannorm,
@@ -606,16 +606,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantnorm <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantnorm <- renderPrint(paste("The quantile at alpha=",
                                           input$alphanorm ,
-                                          "ist:",
+                                          "is:",
                                           qnorm(input$alphanorm,
                                                 mean = input$meannorm,
                                                 sd = input$sdnorm)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablenorm <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qnorm(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qnorm(a,
                                                               mean = input$meannorm,
                                                               sd = input$sdnorm),6))))
     ) 
@@ -641,8 +641,8 @@ server <- function(input,output, session){
                     mean = input$meannorm,
                     sd = input$sdnorm),
             geom = "line",
-            main = "Dichte der Normalverteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the normal distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startnorm)|is.na(input$endnorm)){
           c(qnorm(0.001,
                   mean = input$meannorm,
@@ -658,16 +658,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantnorm <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantnorm <- renderPrint(paste("The quantile at alpha=",
                                           input$alphanorm ,
-                                          "ist:",
+                                          "is:",
                                           qnorm(input$alphanorm,
                                                 mean = input$meannorm,
                                                 sd = input$sdnorm)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablenorm <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qnorm(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qnorm(a,
                                                               mean = input$meannorm,
                                                               sd = input$sdnorm),6))))
     ) 
@@ -680,7 +680,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandnorm,{
-    output$capnorm <- renderText("Zufallszahlen:")
+    output$capnorm <- renderText("Random numbers:")
     output$resnorm <- renderText(paste(round(rnorm(isolate(input$randomnorm), 
                                                    mean = input$meannorm,
                                                    sd = input$sdnorm),6), collapse = isolate(input$trznorm)))
@@ -694,7 +694,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVlognorm,{
-    output$capEVlognorm <- renderText("Die ersten Momente:")
+    output$capEVlognorm <- renderText("First and second moment:")
     output$EVlognorm <- renderUI({
       withMathJax(
         paste0("$$X \\sim LN(",input$meanlnorm,",",input$sdlnorm^2,")\\rightarrow\\begin{cases}
@@ -737,8 +737,8 @@ server <- function(input,output, session){
                      meanlog = input$meanlnorm,
                      sdlog = input$sdlnorm),
             geom = "line",
-            main = "Verteilungsfunktion der Lognormalverteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the lognormal distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startlnorm)|is.na(input$endlnorm)){
           c(qlnorm(0.001, 
                    mean = input$meanlnorm,
@@ -754,16 +754,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantlnorm <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantlnorm <- renderPrint(paste("The quantile at alpha=",
                                            input$alphalnorm ,
-                                           "ist:",
+                                           "is:",
                                            qlnorm(input$alphalnorm,
                                                   meanlog = input$meanlnorm,
                                                   sdlog = input$sdlnorm)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablelnorm <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qlnorm(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qlnorm(a,
                                                                meanlog = input$meanlnorm,
                                                                sdlog = input$sdlnorm),6))))
     )
@@ -789,8 +789,8 @@ server <- function(input,output, session){
                      meanlog = input$meanlnorm,
                      sdlog = input$sdlnorm),
             geom = "line",
-            main = "Dichte der Lognormalverteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the lognormal distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startlnorm)|is.na(input$endlnorm)){
           c(qlnorm(0.001, 
                    mean = input$meanlnorm,
@@ -806,16 +806,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantlnorm <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantlnorm <- renderPrint(paste("The quantile at alpha=",
                                            input$alphalnorm ,
-                                           "ist:",
+                                           "is:",
                                            qlnorm(input$alphalnorm,
                                                   meanlog = input$meanlnorm,
                                                   sdlog = input$sdlnorm)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablelnorm <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qlnorm(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qlnorm(a,
                                                                meanlog = input$meanlnorm,
                                                                sdlog = input$sdlnorm),6))))
     ) 
@@ -824,7 +824,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandlognorm,{
-    output$caplognorm <- renderText("Zufallszahlen:")
+    output$caplognorm <- renderText("Random numbers:")
     output$reslognorm <- renderText(paste(round(rlnorm(isolate(input$randomlognorm), 
                                                        meanlog = input$meanlnorm,
                                                        sdlog = input$sdlnorm),6), collapse = isolate(input$trzlognorm)))
@@ -838,7 +838,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVexp,{
-    output$capEVexp <- renderText("Die ersten Momente:")
+    output$capEVexp <- renderText("First and second moment:")
     output$EVexp <- renderUI({
       withMathJax(
         paste0("$$X \\sim Exp(",input$lambdaexp,")\\rightarrow\\begin{cases}
@@ -878,8 +878,8 @@ server <- function(input,output, session){
       qplot(x,pexp(x,
                    rate = input$lambdaexp),
             geom = "line",
-            main = "Verteilungsfunktion der Exponentialverteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the exponential distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startexp)|is.na(input$endexp)){
           c(qexp(0.001,
                  rate = input$lambdaexp),qexp(0.999,
@@ -892,15 +892,15 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantexp <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantexp <- renderPrint(paste("The quantile at alpha=",
                                          input$alphaexp ,
-                                         "ist:",
+                                         "is:",
                                          qexp(input$alphaexp,
                                               rate = input$lambdaexp)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tableexp <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qexp(a,rate = input$lambdaexp),6))))
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qexp(a,rate = input$lambdaexp),6))))
     ) 
   })
   
@@ -921,8 +921,8 @@ server <- function(input,output, session){
       qplot(x,dexp(x,
                    rate = input$lambdaexp),
             geom = "line",
-            main = "Dichte der Exponentialverteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the exponential distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startexp)|is.na(input$endexp)){
           c(qexp(0.001,
                  rate = input$lambdaexp),qexp(0.999,
@@ -935,15 +935,15 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantexp <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantexp <- renderPrint(paste("The quantile at alpha=",
                                          input$alphaexp ,
-                                         "ist:",
+                                         "is:",
                                          qexp(input$alphaexp,
                                               rate = input$lambdaexp)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tableexp <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qexp(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qexp(a,
                                                              rate = input$lambdaexp),6))))
     ) 
     
@@ -953,7 +953,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandexp,{
-    output$capexp <- renderText("Zufallszahlen:")
+    output$capexp <- renderText("Random numbers:")
     output$resexp <- renderText(paste(round(rexp(isolate(input$randomexp), 
                                                  rate = input$lambdaexp),6), collapse = isolate(input$trzexp)))
   })
@@ -965,7 +965,7 @@ server <- function(input,output, session){
   ########################################Chi-Quadrat-Verteilung########################################
   
   observeEvent(input$goEVchisq,{
-    output$capEVchisq <- renderText("Die ersten Momente:")
+    output$capEVchisq <- renderText("First and second moment:")
     output$EVchisq <- renderUI({
       withMathJax(
         paste0("$$X \\sim \\chi^2_{",input$dfchisq,"}\\rightarrow\\begin{cases}
@@ -1003,8 +1003,8 @@ server <- function(input,output, session){
       qplot(x,pchisq(x,
                      df = input$dfchisq),
             geom = "line",
-            main = "Verteilungsfunktion der Chi-Quadrat-Verteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the Chi-squared distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startchisq)|is.na(input$endchisq)){
           c(qchisq(0.0001,
                    df = input$dfchisq),qchisq(0.9999,
@@ -1017,15 +1017,15 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantchisq <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantchisq <- renderPrint(paste("The quantile at alpha=",
                                            input$alphachisq ,
-                                           "ist:",
+                                           "is:",
                                            qchisq(input$alphachisq,
                                                   df = input$dfchisq)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablechisq <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qchisq(a,df=input$dfchisq),6))))
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qchisq(a,df=input$dfchisq),6))))
     ) 
   })
   
@@ -1047,8 +1047,8 @@ server <- function(input,output, session){
       qplot(x,dchisq(x,
                      df = input$dfchisq),
             geom = "line",
-            main = "Dichte der Chi-Quadrat-Verteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the chi-squared distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startchisq)|is.na(input$endchisq)){
           c(qchisq(0.0001,
                    df = input$dfchisq),qchisq(0.9999,
@@ -1061,15 +1061,15 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantchisq <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantchisq <- renderPrint(paste("The quantile at alpha=",
                                            input$alphachisq ,
-                                           "ist:",
+                                           "is:",
                                            qchisq(input$alphachisq,
                                                   df = input$dfchisq)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablechisq <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qchisq(a,df=input$dfchisq),6))))
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qchisq(a,df=input$dfchisq),6))))
     ) 
     
   })
@@ -1078,7 +1078,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandchisq,{
-    output$capchisq <- renderText("Zufallszahlen:")
+    output$capchisq <- renderText("Random numbers:")
     output$reschisq <- renderText(paste(round(rchisq(isolate(input$randomchisq), 
                                                      df=input$dfchisq),6), collapse = isolate(input$trzchisq)))
   })
@@ -1093,7 +1093,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVt,{
-    output$capEVt <- renderText("Die ersten Momente:")
+    output$capEVt <- renderText("First and second moment:")
     output$EVt <- renderUI({
       withMathJax(
         paste0("$$X \\sim t_{",input$dft,"}\\rightarrow\\begin{cases}
@@ -1132,8 +1132,8 @@ server <- function(input,output, session){
       qplot(x,pt(x,
                  df = input$dft),
             geom = "line",
-            main = "Verteilungsfunktion der Studentschen t-Verteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the t-distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startt) | is.na(input$endt)){
           c(qt(0.001,
                df = input$dft),
@@ -1148,15 +1148,15 @@ server <- function(input,output, session){
       
     })
     output$textt <- renderPrint("Das Quantil")
-    output$quantt <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantt <- renderPrint(paste("The quantile at alpha=",
                                        input$alphat ,
-                                       "ist:",
+                                       "is:",
                                        qt(input$alphat,
                                           df = input$dft)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablet <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qt(a,df=input$dft),6))))
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qt(a,df=input$dft),6))))
     ) 
   })
   
@@ -1178,8 +1178,8 @@ server <- function(input,output, session){
       qplot(x,dt(x,
                  df = input$dft),
             geom = "line",
-            main = "Dichte der Studentschen t-Verteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the t-distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startt) | is.na(input$endt)){
           c(qt(0.001,
                df = input$dft),
@@ -1193,15 +1193,15 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantt <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantt <- renderPrint(paste("The quantile at alpha=",
                                        input$alphat ,
-                                       "ist:",
+                                       "is:",
                                        qt(input$alphat,
                                           df = input$dft)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablet <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qt(a,df=input$dft),6))))
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qt(a,df=input$dft),6))))
     ) 
     
   })
@@ -1209,7 +1209,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandt,{
-    output$capt <- renderText("Zufallszahlen:")
+    output$capt <- renderText("Random numbers:")
     output$rest <- renderText(paste(round(rt(isolate(input$randomt), 
                                              df=input$dft),6), collapse = isolate(input$trzt)))
   })
@@ -1222,7 +1222,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$goEVf,{
-    output$capEVf <- renderText("Die ersten Momente:")
+    output$capEVf <- renderText("First and second moment:")
     output$EVf <- renderUI({
       withMathJax(
         paste0("$$X \\sim F_{",input$dff1,",",input$dff2,"}\\rightarrow\\begin{cases}
@@ -1265,8 +1265,8 @@ server <- function(input,output, session){
                  df1 = input$dff1,
                  df2 = input$dff2),
             geom = "line",
-            main = "Verteilungsfunktion der F-Verteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the F-distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startf) | is.na(input$endf)){
           c(qf(0.0001,
                df1 = input$dff1,
@@ -1283,16 +1283,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantf <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantf <- renderPrint(paste("The quantile at alpha=",
                                        input$alphaf ,
-                                       "ist:",
+                                       "is:",
                                        qf(input$alphaf,
                                           df1 = input$dff1,
                                           df2 = input$dff2)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablef <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qf(a,df1=input$dff1,df2 = input$dff2),6))))
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qf(a,df1=input$dff1,df2 = input$dff2),6))))
     ) 
   })
   
@@ -1318,8 +1318,8 @@ server <- function(input,output, session){
                  df1 = input$dff1,
                  df2 = input$dff2),
             geom = "line",
-            main = "Dichte der F-Verteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the F-distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startf) | is.na(input$endf)){
           c(qf(0.0001,
                df1 = input$dff1,
@@ -1336,16 +1336,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantf <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantf <- renderPrint(paste("The quantile at alpha=",
                                        input$alphaf ,
-                                       "ist:",
+                                       "is:",
                                        qf(input$alphaf,
                                           df1 = input$dff1,
                                           df2 = input$dff2)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablef <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qf(a,df1=input$dff1,df2 = input$dff2),6))))
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qf(a,df1=input$dff1,df2 = input$dff2),6))))
     ) 
     
   })
@@ -1354,7 +1354,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandf,{
-    output$capf <- renderText("Zufallszahlen:")
+    output$capf <- renderText("Random numbers:")
     output$resf <- renderText(paste(round(rf(isolate(input$randomf), 
                                              df1 = input$dff1,
                                              df2 = input$dff2),6), collapse = isolate(input$trzf)))
@@ -1368,7 +1368,7 @@ server <- function(input,output, session){
   #######################################gammaverteilung####################################################
   
   observeEvent(input$goEVgamma,{
-    output$capEVgamma <- renderText("Die ersten Momente:")
+    output$capEVgamma <- renderText("First and second moment:")
     output$EVgamma <- renderUI({
       withMathJax(
         paste0("$$X \\sim \\Gamma (",input$bgamma,",",input$pgamma,")\\rightarrow\\begin{cases}
@@ -1410,8 +1410,8 @@ server <- function(input,output, session){
                      shape = input$pgamma,
                      rate = input$bgamma),
             geom = "line",
-            main = "Verteilungsfunktion der Gammaverteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the gamma distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startgamma) | is.na(input$endgamma)){
           c(qgamma(0.001,
                    shape = input$pgamma,
@@ -1428,16 +1428,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantgamma <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantgamma <- renderPrint(paste("The quantile at alpha=",
                                            input$alphagamma ,
-                                           "ist:",
+                                           "is:",
                                            qgamma(input$alphagamma,
                                                   shape = input$pgamma,
                                                   rate = input$bgamma)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablegamma <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qgamma(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qgamma(a,
                                                                shape = input$pgamma,
                                                                rate = input$bgamma),6))))
     ) 
@@ -1464,8 +1464,8 @@ server <- function(input,output, session){
                      shape = input$pgamma,
                      rate = input$bgamma),
             geom = "line",
-            main = "Dichte der Gammaverteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the gamma distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startgamma) | is.na(input$endgamma)){
           c(qgamma(0.001,
                    shape = input$pgamma,
@@ -1482,16 +1482,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantgamma <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantgamma <- renderPrint(paste("The quantile at alpha=",
                                            input$alphagamma ,
-                                           "ist:",
+                                           "is:",
                                            qgamma(input$alphagamma,
                                                   shape = input$pgamma,
                                                   rate = input$bgamma)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablegamma <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qgamma(a,shape = input$pgamma,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qgamma(a,shape = input$pgamma,
                                                                rate = input$bgamma),6))))
     ) 
     
@@ -1500,7 +1500,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandgamma,{
-    output$capgamma <- renderText("Zufallszahlen:")
+    output$capgamma <- renderText("Random numbers:")
     output$resgamma <- renderText(paste(round(rgamma(isolate(input$randomgamma), 
                                                      shape = input$pgamma,
                                                      rate = input$bgamma),6), collapse = isolate(input$trzgamma)))
@@ -1515,7 +1515,7 @@ server <- function(input,output, session){
   ############################################Betaverteilung############################################
   
   observeEvent(input$goEVbeta,{
-    output$capEVbeta <- renderText("Die ersten Momente:")
+    output$capEVbeta <- renderText("First and second moment:")
     output$EVbeta <- renderUI({
       withMathJax(
         paste0("$$X \\sim \\mathcal{B} (",input$alphaparambeta,",",input$betabeta,")\\rightarrow\\begin{cases}
@@ -1556,8 +1556,8 @@ server <- function(input,output, session){
                     shape1 = input$alphaparambeta,
                     shape2 = input$betabeta),
             geom = "line",
-            main = "Verteilungsfunktion der Betaverteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the beta distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startbeta) | is.na(input$endbeta)){
           c(qbeta(0.001,
                   shape1 = input$alphaparambeta,
@@ -1574,16 +1574,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantbeta <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantbeta <- renderPrint(paste("The quantile at alpha=",
                                           input$alphabeta ,
-                                          "ist:",
+                                          "is:",
                                           qbeta(input$alphabeta,
                                                 shape1 = input$alphaparambeta,
                                                 shape2 = input$betabeta)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablebeta <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qbeta(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qbeta(a,
                                                               shape1 = input$alphaparambeta,
                                                               shape2 = input$betabeta),6))))
     ) 
@@ -1609,8 +1609,8 @@ server <- function(input,output, session){
                     shape1 = input$alphaparambeta,
                     shape2 = input$betabeta),
             geom = "line",
-            main = "Dichte der Betaverteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the beta distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startbeta) | is.na(input$endbeta)){
           c(qbeta(0.001,
                   shape1 = input$alphaparambeta,
@@ -1627,16 +1627,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantbeta <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantbeta <- renderPrint(paste("The quantile at alpha=",
                                           input$alphabeta,
-                                          "ist:",
+                                          "is:",
                                           qbeta(input$alphabeta,
                                                 shape1 = input$alphaparambeta,
                                                 shape2 = input$betabeta)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablebeta <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qbeta(a,shape1 = input$alphaparambeta,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qbeta(a,shape1 = input$alphaparambeta,
                                                               shape2 = input$betabeta),6))))
     ) 
     
@@ -1647,7 +1647,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandbeta,{
-    output$capbeta <- renderText("Zufallszahlen:")
+    output$capbeta <- renderText("Random numbers:")
     output$resbeta <- renderText(paste(round(rbeta(isolate(input$randombeta), 
                                                    shape1 = input$alphaparambeta,
                                                    shape2 = input$betabeta),6), collapse = isolate(input$trzbeta)))
@@ -1662,7 +1662,7 @@ server <- function(input,output, session){
   ########################################Paretoverteilung########################################
   
   observeEvent(input$goEVpareto,{
-    output$capEVpareto <- renderText("Die ersten Momente:")
+    output$capEVpareto <- renderText("First and second moment:")
     output$EVpareto <- renderUI({
       withMathJax(
         paste0("$$X \\sim  Par(",input$apareto,",",input$kpareto,")\\rightarrow\\begin{cases}
@@ -1705,8 +1705,8 @@ server <- function(input,output, session){
                       location = input$apareto,
                       shape = input$kpareto),
             geom = "line",
-            main = "Verteilungsfunktion der Paretoverteilung", 
-            ylab = "Wahrscheinlichkeit")+
+            main = "Distribution function of the pareto distribution", 
+            ylab = "Probability")+
         scale_x_continuous(limits = if(is.na(input$startpareto) | is.na(input$endpareto)){
           c(qpareto(0.001,
                     location = input$apareto,
@@ -1723,16 +1723,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantpareto <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantpareto <- renderPrint(paste("The quantile at alpha=",
                                             input$alphapareto ,
-                                            "ist:",
+                                            "is:",
                                             qpareto(input$alphapareto,
                                                     location = input$apareto,
                                                     shape = input$kpareto)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablepareto <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qpareto(a,
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qpareto(a,
                                                                 location = input$apareto,
                                                                 shape = input$kpareto),6))))
     ) 
@@ -1758,8 +1758,8 @@ server <- function(input,output, session){
                       location = input$apareto, 
                       shape = input$kpareto),
             geom = "line",
-            main = "Dichte der Paretoverteilung", 
-            ylab = "Dichte")+
+            main = "Density function of the pareto distribution", 
+            ylab = "Density")+
         scale_x_continuous(limits = if(is.na(input$startpareto) | is.na(input$endpareto)){
           c(qpareto(0.001,
                     location = input$apareto,
@@ -1776,16 +1776,16 @@ server <- function(input,output, session){
                    na.rm = T)
       
     })
-    output$quantpareto <- renderPrint(paste("Das Quantil bei alpha=",
+    output$quantpareto <- renderPrint(paste("The quantile at alpha=",
                                             input$alphapareto ,
-                                            "ist:",
+                                            "is:",
                                             qpareto(input$alphapareto,
                                                     location = input$apareto, 
                                                     shape = input$kpareto)))
     
     a <- c(0.01,0.025,0.05,0.95,0.975,0.99)
     output$tablepareto <- renderTable(
-      cbind(c("Alpha:","Quantil:"),t(data.frame(a,round(qpareto(a, 
+      cbind(c("Alpha:","Quantile:"),t(data.frame(a,round(qpareto(a, 
                                                                 location = input$apareto,
                                                                 shape = input$kpareto),6))))
     ) 
@@ -1797,7 +1797,7 @@ server <- function(input,output, session){
   
   
   observeEvent(input$gorandpareto,{
-    output$cappareto <- renderText("Zufallszahlen:")
+    output$cappareto <- renderText("Random numbers:")
     output$respareto <- renderText(paste(round(rpareto(isolate(input$randompareto), 
                                                        location = input$apareto,
                                                        shape = input$kpareto),6), collapse = isolate(input$trzpareto)))
